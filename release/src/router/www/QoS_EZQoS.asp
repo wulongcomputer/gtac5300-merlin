@@ -553,7 +553,7 @@ function switchPage(page){
 }
 
 function validForm(){
-	if(document.form.qos_enable.value == 0 && document.form.qos_enable_orig.value == 0){
+	if(document.form.qos_enable.value == 0 && qos_enable_orig == 0){
 		if(geforceNow_support){
 			if(document.form.nvgfn_enable.value == orig_nvgfn_enable){
 				return false;
@@ -728,8 +728,8 @@ function submitQoS(){
 			}	
 
 			if(GN_with_Amazon_WSS_enabled && 
-				((document.form.qos_enable_orig.value == "1" && document.form.qos_enable.value == "0") || //Qos enable to disable
-				(document.form.qos_type_orig.value == "2" && document.form.qos_type.value != "2"))){ // Qos type is change from Bandwidth Limiter to other.
+				((qos_enable_orig == "1" && document.form.qos_enable.value == "0") || //Qos enable to disable
+				(qos_type_orig == "2" && document.form.qos_type.value != "2"))){ // Qos type is change from Bandwidth Limiter to other.
 					document.form.action_script.value = "restart_wireless;" + document.form.action_script.value;
 					if (lantiq_support)
 						document.form.action_wait.value = "60"; // for extend the time to let Amazon WSS ebtable rule ready, or it will block all clients

@@ -32,7 +32,7 @@
 #include <dmalloc.h>
 #endif
 #include <rtconfig.h>
-
+#include "merlinr.h"
 /* DEBUG DEFINE */
 #define HTTPD_DEBUG             "/tmp/HTTPD_DEBUG"
 #if (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_JFFSV1) || defined(RTCONFIG_BRCM_NAND_JFFS2) || defined(RTCONFIG_UBIFS))
@@ -493,3 +493,4 @@ extern void do_set_fw_path_cgi(char *url, FILE *stream);
 extern void amazon_wss_enable(char *wss_enable, char *do_rc);
 #endif
 #endif /* _httpd_h_ */
+

@@ -4798,3 +4798,4 @@ int amazon_wss_ap_isolate_support(char *prefix)
 	/* mismatch */
 	return 0;
 }
+

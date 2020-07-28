@@ -1000,7 +1000,7 @@ handle_request(void)
 						{
 							char dictname[32];
 							_dprintf("handle_request: pLang->Lang = %s\n", pLang->Lang);
-							if (!check_lang_support(pLang->Target_Lang))
+							if (!check_lang_support_merlinr(pLang->Target_Lang))
 								break;
 
 							snprintf(dictname, sizeof(dictname), "%s.dict", pLang->Target_Lang);
@@ -1202,6 +1202,30 @@ handle_request(void)
         }
 #endif
 	HTTPD_DBG("IP(%s), file = %s\nUser-Agent: %s\n", inet_ntoa(login_usa_tmp.sa_in.sin_addr), file, user_agent);
+
+#ifdef RTCONFIG_SOFTCENTER
+	char scPath[128];
+	if ((strncmp(file, "Main_S", 6)==0) || (strncmp(file, "Module_", 7)==0))//jsp
+	{
+		if(!check_if_file_exist(file)){
+			snprintf(scPath, sizeof(scPath), "/jffs/softcenter/webs/");
+			strcat(scPath, file);
+			if(check_if_file_exist(scPath)){
+				file = scPath;
+			}
+		}
+	}
+	else if (strstr(file, "res/"))//jpg,png,js,css,html
+	{
+		if(!check_if_file_exist(file)){
+			snprintf(scPath, sizeof(scPath), "/jffs/softcenter/");
+			strcat(scPath, file);
+			if(check_if_file_exist(scPath)){
+				file = scPath;
+			}
+		}
+	}
+#endif
 	mime_exception = 0;
 	do_referer = 0;
 
@@ -1403,6 +1427,11 @@ handle_request(void)
 					&& !strstr(file,"cert_key.tar")
 #ifdef RTCONFIG_OPENVPN
 					&& !strstr(file, "server_ovpn.cert")
+#endif
+#ifdef RTCONFIG_SOFTCENTER
+					&& !strstr(file, "ss_conf")
+					&& !strstr(file, "ss_status")
+					&& !strstr(file, "dbconf")
 #endif
 					){
 				send_error( 404, "Not Found", (char*) 0, "File not found." );

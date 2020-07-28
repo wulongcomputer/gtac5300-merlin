@@ -318,6 +318,16 @@ endif
 
 OBJS += $(if $(wildcard private.c),private.o,prebuild/private.o)
 
+ifeq ($(K3),y)
+OBJS += $(if $(wildcard k3.c), k3.o, prebuild/k3.o)
+OBJS += $(if $(wildcard k3ex.c), k3ex.o, prebuild/k3ex.o)
+else ifeq ($(K3C),y)
+OBJS += $(if $(wildcard k3c.c), k3c.o, prebuild/k3c.o)
+else ifeq ($(R8000P),y)
+OBJS += $(if $(wildcard r7900p.c), r7900p.o, prebuild/r7900p.o)
+else
+OBJS += merlinr.o
+endif
 # TODO, speedtest
 ifeq ($(RTCONFIG_SPEEDTEST),y)
 OBJS += $(if $(wildcard speedtest.c),speedtest.o,prebuild/speedtest.o)
@@ -402,9 +412,10 @@ endif
 endif
 
 ifeq ($(RTCONFIG_FRS_LIVE_UPDATE),y)
+ifneq ($(MERLINR_NAME), $(filter $(MERLINR_NAME), K3 K3C R7900P R8000P SBRAC1900P RTAC68U EA6700))
 OBJS += frs_service.o
 endif
-
+endif
 ifeq ($(RTCONFIG_DSL),y)
 OBJS += asustest.o
 endif
@@ -751,6 +762,9 @@ endif
 	@cd $(INSTALLDIR)/sbin && ln -sf rc reboot
 	@cd $(INSTALLDIR)/sbin && ln -sf rc halt
 	@cd $(INSTALLDIR)/sbin && ln -sf rc netool
+ifeq ($(K3),y)
+	@cd $(INSTALLDIR)/sbin && ln -sf rc k3screen
+endif
 ifeq ($(HND_ROUTER),y)
 	@cd $(INSTALLDIR)/sbin && ln -sf rc hnd-write
 	@cd $(INSTALLDIR)/sbin && ln -sf rc hnd-erase
@@ -829,6 +843,7 @@ ifeq ($(RTCONFIG_DETWAN),y)
 	@cd $(INSTALLDIR)/sbin && ln -sf rc detwan
 endif
 	@cd $(INSTALLDIR)/sbin && ln -sf rc ddns_updated
+	@cd $(INSTALLDIR)/sbin && ln -sf rc ddns_custom_updated
 
 #	@cd $(INSTALLDIR)/sbin && ln -sf rc wldist
 
@@ -1019,6 +1034,9 @@ ifeq ($(HND_ROUTER),y)
 endif
 	@cd $(INSTALLDIR)/sbin && ln -sf rc lanports_ctrl
 	@cd $(INSTALLDIR)/sbin && ln -sf rc GetExtPhyStatus
+ifeq ($(MERLINR_NAME), $(filter $(MERLINR_NAME), K3 R7900P R8000P EA6700))
+	@cd $(INSTALLDIR)/sbin && ln -sf rc Get_PhyStatus
+endif
 ifeq ($(HND_ROUTER),y)
 	@cd $(INSTALLDIR)/sbin && ln -sf rc memdw
 endif
@@ -1119,6 +1137,9 @@ endif
 ifeq ($(or $(RTAC68U),$(RT4GAC68U)),y)
 	@cd $(INSTALLDIR)/sbin && ln -sf rc firmware_enc_crc
 	@cd $(INSTALLDIR)/sbin && ln -sf rc fw_check
+endif
+ifeq ($(strip $(MERLINR_NAME)),$(filter $(MERLINR_NAME), SBRAC1900P SBRAC3200P R7900P R8000P))
+	@cd $(INSTALLDIR)/sbin && ln -sf rc toolbox
 endif
 
 clean:
@@ -1458,3 +1479,4 @@ else
 	$(LD) -L$(TOP)/nvram${BCMEX}${EX7} -lnvram -L$(TOP)/shared -lshared -shared -o $@ $^
 endif
 endif
+

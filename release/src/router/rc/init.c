@@ -78,6 +78,20 @@
 #include <sys/statfs.h>
 #endif
 
+#if defined(K3C)
+#include "k3c.h"
+#elif defined(K3)
+#include "k3.h"
+#elif defined(SBRAC1900P)
+#include "1900p.h"
+#elif defined(SBRAC3200P)
+#include "3200p.h"
+#elif defined(R7900P) || defined(R8000P)
+#include "r7900p.h"
+#else
+#include "merlinr.h"
+#endif
+
 #define SHELL "/bin/sh"
 #define LOGIN "/bin/login"
 
@@ -7297,6 +7311,7 @@ int init_nvram(void)
 
 #if defined(GTAC5300)
 	case MODEL_GTAC5300:
+		merlinr_init();
 		model_patch();
 		if (is_router_mode()) {
 			nvram_set("lan_ifnames", "eth1 eth2 eth3 eth4 eth5 eth6 eth7 eth8");
@@ -7417,6 +7432,7 @@ int init_nvram(void)
 		add_rc_support("switchctrl"); // broadcom: for jumbo frame only
 		add_rc_support("manual_stb");
 //		add_rc_support("pwrctrl");
+		add_rc_support("gameMode");
 		add_rc_support("WIFI_LOGO");
 		add_rc_support("nandflash");
 		add_rc_support("smart_connect");
@@ -9446,9 +9462,11 @@ NO_USB_CAP:
 #endif
 
 #ifdef RTCONFIG_AMAS
+#if !defined(MERLINR_VER_MAJOR_B)
 	add_rc_support("amas");
 	if (nvram_get_int("amas_bdl"))
 	add_rc_support("amas_bdl");
+#endif
 #endif
 
 #ifdef RTCONFIG_WIFI_PROXY
@@ -10406,6 +10424,7 @@ static void sysinit(void)
 		"/tmp/lib/firmware",
 		"/tmp/etc/wireless",
 #endif // RTCONFIG_WLMODULE_MT7663E_AP
+		"/tmp/etc/dnsmasq.user",	// ssr and adbyby
 		NULL
 	};
 	umask(0);
@@ -11036,6 +11055,7 @@ int init_main(int argc, char *argv[])
 #ifdef RTN65U
 		asm1042_upgrade(1);	// check whether upgrade firmware of ASM1042
 #endif
+		run_custom_script("init-start", 0, NULL, NULL);
 
 		state = SIGUSR2;	/* START */
 
@@ -11572,6 +11592,7 @@ dbg("boot/continue fail= %d/%d\n", nvram_get_int("Ate_boot_fail"),nvram_get_int(
 			nvram_set("success_start_service", "1");
 			force_free_caches();
 #endif
+			merlinr_init_done();
 
 #ifdef RTCONFIG_AMAS
 			nvram_set("start_service_ready", "1");

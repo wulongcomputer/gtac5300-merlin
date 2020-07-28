@@ -166,7 +166,7 @@ config RTCONFIG_BRCM_NAND_JFFS2
 
 config RTCONFIG_JFFS_NVRAM
 	bool "NVRAM on JFFS support"
-	depends on RTCONFIG_BRCM_NAND_JFFS2
+	depends on RTCONFIG_BRCM_NAND_JFFS2  || RTCONFIG_UBIFS
 	default y
 
 config RTCONFIG_JFFS2
@@ -2007,3 +2007,12 @@ config RTCONFIG_GN_WBL
 config RTCONFIG_AMAZON_WSS
 	bool "AMAZON WSS (WiFi Simple Setup) certificate (depends on GN_WBL feature)"
 	default n
+
+config RTCONFIG_SOFTCENTER
+	bool "softcenter"
+	default n
+
+config RTCONFIG_SMARTDNS
+	bool "smart dns"
+	default n
+

@@ -1852,6 +1852,11 @@ extern void start_sendDSLdiag(void);
 extern void start_snmpd(void);
 extern void stop_snmpd(void);
 #endif
+#if defined(RTCONFIG_SMARTDNS)
+extern void start_smartdns();
+#endif
+extern void setup_leds();
+int ddns_custom_updated_main(int argc, char *argv[]);
 #ifdef RTCONFIG_TIMEMACHINE
 extern int start_timemachine(void);
 extern void stop_timemachine(int force);
@@ -2487,3 +2492,4 @@ extern void GN_WBL_restart();
 #endif
 
 #endif	/* __RC_H__ */
+

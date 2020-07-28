@@ -786,3 +786,8 @@ endif
 ifneq ($(RTCONFIG_APP_FILEFLEX), y)
 	rm -rf $(INSTALLDIR)/www/fileflex.asp
 endif
+
+ifeq ($(MERLINR_NAME),$(filter $(MERLINR_NAME), SBRAC1900P SBRAC3200P R7900P R8000P K3C K3))
+	$(TOP)/softcenter/dict.sh $(BUILD_NAME) $(MERLINR_NAME) $(INSTALLDIR)/www
+endif
+

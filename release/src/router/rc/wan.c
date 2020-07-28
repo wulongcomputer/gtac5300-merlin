@@ -625,6 +625,11 @@ void update_wan_state(char *prefix, int state, int reason)
 		snprintf(tmp, sizeof(tmp), "/var/run/ppp-wan%d.status", unit);
 		unlink(tmp);
 	}
+	else if (state == WAN_STATE_CONNECTED) {
+		sprintf(tmp,"%c",prefix[3]);
+		run_custom_script("wan-start", 0, tmp, NULL);
+		nvram_set_int("sc_wan_sig", 1);
+	}
 }
 
 #ifdef RTCONFIG_IPV6
@@ -1997,6 +2002,18 @@ int update_resolvconf(void)
 		fclose(fp);
 		goto error;
 	}
+#if defined(RTCONFIG_SMARTDNS)
+	FILE *fp_smartdns;
+	if (!(fp_smartdns = fopen("/tmp/resolv.smartdns", "w+"))) {
+		perror("/tmp/resolv.smartdns");
+		fclose(fp);
+		fclose(fp_servers);
+		goto error;
+	}
+	fprintf(fp_smartdns, "server=127.0.0.1#9053\n");
+	fclose(fp_smartdns);
+	start_smartdns();
+#endif
 
 	{
 		for (unit = WAN_UNIT_FIRST; unit < WAN_UNIT_MAX; unit++) {
@@ -3436,7 +3453,7 @@ stop_wan(void)
 #else
 	_dprintf("no wifison feature\n");
 #endif
-	}
+	}	
 	else
 	{
 		if (!is_routing_enabled())
@@ -4129,7 +4146,7 @@ static void detwan_preinit(void)
 		nvram_set("lan_ifnames", lan);
 
 	stop_wanduck();
-	// Only MAP-AC2200 && MAC-AC1300 support DETWAN
+	// Only MAP-AC2200 && MAC-AC1300 support DETWAN 
 	// following configs are same in both products
 	nvram_set("detwan_proto", "-1");
 	nvram_set("wanports_mask", "0");

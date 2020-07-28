@@ -82,6 +82,9 @@ static const struct led_btn_table_s {
 	{ "btn_ejusb1_gpio",	&btn_gpio_table[BTN_EJUSB1] },
 	{ "btn_ejusb2_gpio",	&btn_gpio_table[BTN_EJUSB2] },
 #endif
+#if defined(R7900P) || defined(R8000P)
+	{ "switch_led_gpio",		&btn_gpio_table[SWITCH_LED] },
+#endif
 	/* LED */
 	{ "led_pwr_gpio",	&led_gpio_table[LED_POWER] },
 #if defined(RTCONFIG_PWRRED_LED)
@@ -227,6 +230,11 @@ static const struct led_btn_table_s {
 	{ "led_sig1_gpio",		&led_gpio_table[LED_SIG1] },
 	{ "led_sig2_gpio",		&led_gpio_table[LED_SIG2] },
 #endif		
+#if defined(R7900P) || defined(R8000P)
+	{ "led_pwr_red_gpio",	&led_gpio_table[LED_POWER_RED] },
+	{ "led_wifi_gpio",		&led_gpio_table[LED_WIFI] },
+	{ "led_guest_gpio",		&led_gpio_table[LED_GUEST] },
+#endif
 	{ NULL, NULL },
 };
 
@@ -268,6 +276,10 @@ int init_gpio(void)
 #ifdef RTCONFIG_EJUSB_BTN
 		, "btn_ejusb1_gpio", "btn_ejusb2_gpio"
 #endif
+#if defined(R7900P) || defined(R8000P)
+		, "switch_led_gpio"
+#endif
+
 	};
 	char *led_list[] = { "led_pwr_gpio", "led_usb_gpio", "led_wps_gpio", "fan_gpio", "have_fan_gpio", "led_wan_gpio", "led_usb3_gpio", "led_2g_gpio", "led_5g_gpio"
 #if defined(RTCONFIG_HAS_5G_2)
@@ -378,6 +390,11 @@ int init_gpio(void)
 #ifdef RTCONFIG_RESET_SWITCH
 		, "reset_switch_gpio"
 #endif
+#if defined(R7900P) || defined(R8000P)
+	, "led_pwr_red_gpio"
+	, "led_wifi_gpio"
+	, "led_guest_gpio"
+#endif
 			   };
 	int use_gpio, gpio_pin;
 	int enable, disable;
@@ -459,7 +476,7 @@ int init_gpio(void)
 #endif
 	}
 
-#if (defined(PLN12) || defined(PLAC56))
+#if (defined(PLN12) || defined(PLAC56) || defined(R7900P) || defined(R8000P))
 	if((gpio_pin = (use_gpio = nvram_get_int("led_pwr_red_gpio")) & 0xff) != 0xff)
 #elif defined(MAPAC1750)
 	if((gpio_pin = (use_gpio = nvram_get_int("led_blue_gpio")) & 0xff) != 0xff)
@@ -475,7 +492,7 @@ int init_gpio(void)
 		{ int i; char led[16]; for(i=0; i<LED_ID_MAX; i++) if(gpio_pin == (led_gpio_table[i]&0xff)){snprintf(led, sizeof(led), "led%02d", i); nvram_set_int(led, LED_ON); break;}}
 #endif
 	}
-
+#if defined(R7900P) || defined(R8000P)
 	// Power of USB.
 	if((gpio_pin = (use_gpio = nvram_get_int("pwr_usb_gpio")) & 0xff) != 0xff){
 		enable = (use_gpio&GPIO_ACTIVE_LOW)==0 ? 1 : 0;
@@ -485,8 +502,8 @@ int init_gpio(void)
 		enable = (use_gpio&GPIO_ACTIVE_LOW)==0 ? 1 : 0;
 		set_gpio(gpio_pin, enable);
 	}
-
-#if defined(RTAC5300) || defined(GTAC5300)
+#endif
+#if defined(RTAC5300) || defined(GTAC5300) && !defined(R7900P) && !defined(R8000P)
 	// RPM of FAN
 	if((gpio_pin = (use_gpio = nvram_get_int("rpm_fan_gpio")) & 0xff) != 0xff){
 	enable = (use_gpio&GPIO_ACTIVE_LOW)==0 ? 1 : 0;
@@ -675,6 +692,15 @@ int do_led_control(int which, int mode)
 	int use_gpio, gpio_nr;
 	int v = (mode == LED_OFF)? 0:1;
 
+	if ((mode == LED_ON) && (nvram_get_int("led_disable") == 1)
+#ifdef RTCONFIG_QTN
+		&& (which != BTN_QTN_RESET)
+#endif
+	)
+	{
+		return 0;
+	}
+
 	if (which < 0 || which >= LED_ID_MAX || mode < 0 || mode >= LED_FAN_MODE_MAX)
 		return -1;
 
@@ -717,6 +743,103 @@ int do_led_control(int which, int mode)
 	}
 #endif
 	return 0;
+}
+
+/* Led control code used by Stealth Mode.  Unlike led_control(), this
+ * function can also use other methods of enabling/disabling a LED
+ * beside gpio - required for some models
+ *
+ * Also call led_control(), as it will handle gpio-based leds.
+*/
+
+int led_control_atomic(int which, int mode)
+{
+	int model;
+
+	model = get_model();
+
+	switch(which) {
+		case LED_2G:
+			if ((model == MODEL_RTN66U) || (model == MODEL_RTAC66U) || (model == MODEL_RTN16)) {
+				if (mode == LED_ON)
+					eval("wl", "-i", "eth1", "leddc", "0");
+				else if (mode == LED_OFF)
+					eval("wl", "-i", "eth1", "leddc", "1");
+			} else if ((model == MODEL_RTAC56U) || (model == MODEL_RTAC56S)) {
+				if (mode == LED_ON)
+					eval("wl", "-i", "eth1", "ledbh", "3", "7");
+				else if (mode == LED_OFF)
+					eval("wl", "-i", "eth1", "ledbh", "3", "0");
+			} else if ((model == MODEL_RTAC68U) || (model == MODEL_RTAC87U) || (model == MODEL_RTAC3200)) {
+				if (mode == LED_ON)
+					eval("wl", "ledbh", "10", "7");
+				else if (mode == LED_OFF)
+					eval("wl", "ledbh", "10", "0");
+			} else if ((model == MODEL_RTAC88U) || (model == MODEL_RTAC3100) || (model == MODEL_RTAC5300) || (model == MODEL_RTAC86U)) {
+				if (mode == LED_ON)
+					eval("wl", "ledbh", "9", "7");
+				else if (mode == LED_OFF)
+					eval("wl", "ledbh", "9", "0");
+			}
+			break;
+		case LED_5G_FORCED:
+			if ((model == MODEL_RTAC68U) || (model == MODEL_RTAC3200)) {
+				if (mode == LED_ON) {
+					nvram_set("led_5g", "1");
+		                        eval("wl", "-i", "eth2", "ledbh", "10", "7");
+				} else if (mode == LED_OFF) {
+					nvram_set("led_5g", "0");
+					eval("wl", "-i", "eth2", "ledbh", "10", "0");
+				}
+			} else if ((model == MODEL_RTAC88U) || (model == MODEL_RTAC3100) || (model == MODEL_RTAC5300)) {
+				if (mode == LED_ON)
+					eval("wl", "-i", "eth2", "ledbh", "9", "7");
+				else if (mode == LED_OFF)
+					eval("wl", "-i", "eth2", "ledbh", "9", "0");
+			} else if (model == MODEL_RTAC86U) {
+				if (mode == LED_ON)
+					eval("wl", "-i", "eth6", "ledbh", "9", "7");
+				else if (mode == LED_OFF)
+					eval("wl", "-i", "eth6", "ledbh", "9", "0");
+			}
+			// Second 5 GHz radio
+			if (model == MODEL_RTAC5300) {
+				if (mode == LED_ON)
+					eval("wl", "-i", "eth3", "ledbh", "9", "7");
+				else if (mode == LED_OFF)
+					eval("wl", "-i", "eth3", "ledbh", "9", "0");
+			} else if (model == MODEL_RTAC3200) {
+				if (mode == LED_ON)
+					eval("wl", "-i", "eth3", "ledbh", "10", "7");
+				else if (mode == LED_OFF)
+					eval("wl", "-i", "eth3", "ledbh", "10", "0");
+			}
+			which = LED_5G;	// Fall through regular LED_5G to handle other models
+		case LED_5G:
+			if ((model == MODEL_RTN66U) || (model == MODEL_RTN16)) {
+                                if (mode == LED_ON)
+                                        eval("wl", "-i", "eth2", "leddc", "0");
+                                else if (mode == LED_OFF)
+                                        eval("wl", "-i", "eth2", "leddc", "1");
+			} else if ((model == MODEL_RTAC66U) || (model == MODEL_RTAC56U) || (model == MODEL_RTAC56S)) {
+				if (mode == LED_ON)
+					nvram_set("led_5g", "1");
+				else if (mode == LED_OFF)
+					nvram_set("led_5g", "0");
+			}
+			break;
+		case LED_SWITCH:
+			if (mode == LED_ON) {
+				eval("et", "robowr", "0x00", "0x18", "0x01ff");
+				eval("et", "robowr", "0x00", "0x1a", "0x01ff");
+			} else if (mode == LED_OFF) {
+				eval("et", "robowr", "0x00", "0x18", "0x01e0");
+				eval("et", "robowr", "0x00", "0x1a", "0x01e0");
+			}
+			break;
+	}
+
+	return led_control(which, mode);
 }
 
 #ifdef RT4GAC55U
@@ -1069,7 +1192,7 @@ int lanport_ctrl(int ctrl)
 	else
 		rtkswitch_ioctl(POWERDOWN_LANPORTS, -1, -1);
 #endif
-#if defined(GTAC5300)
+#if defined(GTAC5300) && !defined(R7900P) &&  !defined(R8000P)
 	set_ex53134_ctrl(0xf, ctrl);
 #endif
 

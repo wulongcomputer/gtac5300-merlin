@@ -1,4 +1,4 @@
-﻿BOM=BOM
+BOM=BOM
 AiMesh_Desc=AiMesh 整合多台华硕路由器组成 AiMesh 系统，为您提供强大的家庭网络覆盖和集中式网络管理。
 AiMesh_Desc2=您可以点击网络地图中的\"搜索\"按钮搜索您的 AiMesh 节点。<br>若附近有可以添加至 AiMesh 系统的可用 AiMesh 节点，将会显示在可用 AiMesh 节点列表中。
 AiMesh_Desc3=若您无法搜索到任何附近可用的 AiMesh 节点：
@@ -3723,3 +3723,5 @@ AURA_Event_Attack_desc=系统成功封锁潜在攻击时，LED 灯使用红色�
 AURA_Event_Note=注意：选择事件后，系统将会根据当前检测到的不同事件显示不同的 LED 灯效。使用此功能时，您无法控制设备的 LED 灯效。
 UU_Accelerator=网易 UU 加速器
 UU_Accelerator_desc=UU 路由器插件为三大主机（PS4、Switch、Xbox One）、PC 外服端游提供加速。可实现多设备同时加速，畅享全球联机超快感！
+Softcenter=软件中心
+Softcenter_tool=工具箱

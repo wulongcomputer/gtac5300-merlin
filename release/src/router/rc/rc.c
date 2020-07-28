@@ -1,3 +1,4 @@
+
 /*
 
 	Tomato Firmware
@@ -32,6 +33,20 @@
 #if defined(RTCONFIG_SOC_IPQ8074)
 #include <sys/vfs.h>
 #include <inttypes.h>
+#endif
+
+#if defined(K3)
+#include "k3.h"
+#elif defined(R7900P) || defined(R8000P)
+#include "r7900p.h"
+#elif defined(K3C)
+#include "k3c.h"
+#elif defined(SBRAC1900P)
+#include "ac1900p.h"
+#elif defined(SBRAC3200P)
+#include "ac3200p.h"
+#else
+#include "merlinr.h"
 #endif
 
 #ifndef ARRAYSIZE
@@ -289,8 +304,23 @@ static int rctest_main(int argc, char *argv[])
 	}
 #endif
 	else if (strcmp(argv[1], "GetPhyStatus")==0) {
+#if defined(R7900P) || defined(R8000P) || defined(EA6700) 
+		printf("Get Phy status:%d\n", GetPhyStatus2(0));
+#elif defined(K3)
+		printf("Get Phy status:%d\n", GetPhyStatusk3(0));
+#else
 		printf("Get Phy status:%d\n", GetPhyStatus(0));
+#endif
 	}
+#if defined(K3) || defined(R7900P) || defined(R8000P) || defined(EA6700) 
+	else if (strcmp(argv[1], "Get_PhyStatus")==0) {
+#if defined(K3)
+		GetPhyStatusk3(1);
+#elif defined(R7900P) || defined(R8000P) || defined(EA6700) 
+		 GetPhyStatus2(1);
+#endif
+	}
+#endif
 	else if (strcmp(argv[1], "GetExtPhyStatus")==0) {
 		printf("Get Ext Phy status:%d\n", GetPhyStatus(atoi(argv[2])));
 	}
@@ -1115,6 +1145,7 @@ static const applets_t applets[] = {
 	{ "usbled",			usbled_main			},
 #endif
 	{ "ddns_updated", 		ddns_updated_main		},
+	{ "ddns_custom_updated",	ddns_custom_updated_main	},
 	{ "radio",			radio_main			},
 	{ "udhcpc",			udhcpc_wan			},
 	{ "udhcpc_lan",			udhcpc_lan			},
@@ -1184,7 +1215,11 @@ static const applets_t applets[] = {
 #endif
 	{ "firmware_check",		firmware_check_main		},
 #if defined(RTCONFIG_FRS_LIVE_UPDATE)
+#if defined(RTCONFIG_BCMARM) || defined(RTCONFIG_LANTIQ) || defined(RTCONFIG_QCA) || defined(RTCONFIG_HND_ROUTER)
+	{ "firmware_check_update",	merlinr_firmware_check_update_main	},
+#else
 	{ "firmware_check_update",	firmware_check_update_main	},
+#endif
 #endif
 #ifdef RTAC68U
 	{ "firmware_enc_crc",		firmware_enc_crc_main		},
@@ -1249,6 +1284,9 @@ static const applets_t applets[] = {
 #endif
 #ifdef RTCONFIG_ADTBW
 	{ "adtbw",			adtbw_main		},
+#endif
+#if defined(SBRAC1900P) || defined(SBRAC3200P) || defined(R7900P)  || defined(R8000P)
+	{ "toolbox",			merlinr_toolbox		},
 #endif
 	{NULL, NULL}
 };
@@ -2019,6 +2057,12 @@ int main(int argc, char **argv)
 		_start_telnetd(1);
 		return 0;
 	}
+#if defined(K3)
+	else if(!strcmp(base, "k3screen")) {
+		start_k3screen();
+		return 0;
+	}
+#endif
 #ifdef RTCONFIG_SSH
 	else if (!strcmp(base, "run_sshd")) {
 		start_sshd();
@@ -2182,6 +2226,9 @@ int main(int argc, char **argv)
 				(!strcmp(argv[1], "rootfs")) ||
 				(!strcmp(argv[1], "rootfs2")) ||
 				(!strcmp(argv[1], "brcmnand")) ||
+#if defined(RTAC68U)
+				(!strcmp(argv[1], "asus")) ||
+#endif
 				(!strcmp(argv[1], "nvram")))) {
 			return mtd_erase(argv[1]);
 		} else {
@@ -2365,3 +2412,4 @@ int main(int argc, char **argv)
 	printf("Unknown applet: %s\n", base);
 	return 0;
 }
+
