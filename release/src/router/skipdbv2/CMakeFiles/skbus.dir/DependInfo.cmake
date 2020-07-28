@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/paldier/r7900p/gt5300/release/src/router/skipdbv2/client/skbus.c" "/home/paldier/r7900p/gt5300/release/src/router/skipdbv2/CMakeFiles/skbus.dir/client/skbus.c.o"
+  "/home/paldier/5300/release/src/router/skipdbv2/client/skbus.c" "/home/paldier/5300/release/src/router/skipdbv2/CMakeFiles/skbus.dir/client/skbus.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

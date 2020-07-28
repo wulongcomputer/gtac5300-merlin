@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/paldier/r7900p/gt5300/release/src/router/skipdbv2
+CMAKE_SOURCE_DIR = /home/paldier/5300/release/src/router/skipdbv2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/paldier/r7900p/gt5300/release/src/router/skipdbv2
+CMAKE_BINARY_DIR = /home/paldier/5300/release/src/router/skipdbv2
 
 # Include any dependencies generated for this target.
 include CMakeFiles/skipd.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/skipd.dir/flags.make
 
 CMakeFiles/skipd.dir/mgr/skipd.c.o: CMakeFiles/skipd.dir/flags.make
 CMakeFiles/skipd.dir/mgr/skipd.c.o: mgr/skipd.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/paldier/r7900p/gt5300/release/src/router/skipdbv2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/skipd.dir/mgr/skipd.c.o"
-	/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin/arm-buildroot-linux-gnueabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/skipd.dir/mgr/skipd.c.o   -c /home/paldier/r7900p/gt5300/release/src/router/skipdbv2/mgr/skipd.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/paldier/5300/release/src/router/skipdbv2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/skipd.dir/mgr/skipd.c.o"
+	/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin/arm-buildroot-linux-gnueabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/skipd.dir/mgr/skipd.c.o   -c /home/paldier/5300/release/src/router/skipdbv2/mgr/skipd.c
 
 CMakeFiles/skipd.dir/mgr/skipd.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/skipd.dir/mgr/skipd.c.i"
-	/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin/arm-buildroot-linux-gnueabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/paldier/r7900p/gt5300/release/src/router/skipdbv2/mgr/skipd.c > CMakeFiles/skipd.dir/mgr/skipd.c.i
+	/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin/arm-buildroot-linux-gnueabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/paldier/5300/release/src/router/skipdbv2/mgr/skipd.c > CMakeFiles/skipd.dir/mgr/skipd.c.i
 
 CMakeFiles/skipd.dir/mgr/skipd.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/skipd.dir/mgr/skipd.c.s"
-	/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin/arm-buildroot-linux-gnueabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/paldier/r7900p/gt5300/release/src/router/skipdbv2/mgr/skipd.c -o CMakeFiles/skipd.dir/mgr/skipd.c.s
+	/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin/arm-buildroot-linux-gnueabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/paldier/5300/release/src/router/skipdbv2/mgr/skipd.c -o CMakeFiles/skipd.dir/mgr/skipd.c.s
 
 CMakeFiles/skipd.dir/mgr/skipd.c.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/skipd.dir/mgr/skipd.c.o.provides.build: CMakeFiles/skipd.dir/mgr/skip
 
 CMakeFiles/skipd.dir/mgr/daemonize.c.o: CMakeFiles/skipd.dir/flags.make
 CMakeFiles/skipd.dir/mgr/daemonize.c.o: mgr/daemonize.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/paldier/r7900p/gt5300/release/src/router/skipdbv2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/skipd.dir/mgr/daemonize.c.o"
-	/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin/arm-buildroot-linux-gnueabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/skipd.dir/mgr/daemonize.c.o   -c /home/paldier/r7900p/gt5300/release/src/router/skipdbv2/mgr/daemonize.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/paldier/5300/release/src/router/skipdbv2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/skipd.dir/mgr/daemonize.c.o"
+	/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin/arm-buildroot-linux-gnueabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/skipd.dir/mgr/daemonize.c.o   -c /home/paldier/5300/release/src/router/skipdbv2/mgr/daemonize.c
 
 CMakeFiles/skipd.dir/mgr/daemonize.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/skipd.dir/mgr/daemonize.c.i"
-	/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin/arm-buildroot-linux-gnueabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/paldier/r7900p/gt5300/release/src/router/skipdbv2/mgr/daemonize.c > CMakeFiles/skipd.dir/mgr/daemonize.c.i
+	/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin/arm-buildroot-linux-gnueabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/paldier/5300/release/src/router/skipdbv2/mgr/daemonize.c > CMakeFiles/skipd.dir/mgr/daemonize.c.i
 
 CMakeFiles/skipd.dir/mgr/daemonize.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/skipd.dir/mgr/daemonize.c.s"
-	/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin/arm-buildroot-linux-gnueabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/paldier/r7900p/gt5300/release/src/router/skipdbv2/mgr/daemonize.c -o CMakeFiles/skipd.dir/mgr/daemonize.c.s
+	/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin/arm-buildroot-linux-gnueabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/paldier/5300/release/src/router/skipdbv2/mgr/daemonize.c -o CMakeFiles/skipd.dir/mgr/daemonize.c.s
 
 CMakeFiles/skipd.dir/mgr/daemonize.c.o.requires:
 
@@ -118,7 +118,7 @@ bin/skipd: CMakeFiles/skipd.dir/mgr/daemonize.c.o
 bin/skipd: CMakeFiles/skipd.dir/build.make
 bin/skipd: lib/libskipdb.a
 bin/skipd: CMakeFiles/skipd.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/paldier/r7900p/gt5300/release/src/router/skipdbv2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable bin/skipd"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/paldier/5300/release/src/router/skipdbv2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable bin/skipd"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/skipd.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -136,6 +136,6 @@ CMakeFiles/skipd.dir/clean:
 .PHONY : CMakeFiles/skipd.dir/clean
 
 CMakeFiles/skipd.dir/depend:
-	cd /home/paldier/r7900p/gt5300/release/src/router/skipdbv2 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/paldier/r7900p/gt5300/release/src/router/skipdbv2 /home/paldier/r7900p/gt5300/release/src/router/skipdbv2 /home/paldier/r7900p/gt5300/release/src/router/skipdbv2 /home/paldier/r7900p/gt5300/release/src/router/skipdbv2 /home/paldier/r7900p/gt5300/release/src/router/skipdbv2/CMakeFiles/skipd.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/paldier/5300/release/src/router/skipdbv2 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/paldier/5300/release/src/router/skipdbv2 /home/paldier/5300/release/src/router/skipdbv2 /home/paldier/5300/release/src/router/skipdbv2 /home/paldier/5300/release/src/router/skipdbv2 /home/paldier/5300/release/src/router/skipdbv2/CMakeFiles/skipd.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/skipd.dir/depend
 

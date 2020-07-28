@@ -3145,13 +3145,13 @@ k3screenctrl-install: k3screenctrl
 	$(STRIP) $(INSTALLDIR)/k3screenctrl/usr/sbin/k3screend
 endif
 
-ipset/stamp-h1: libmnl
+ipset/stamp-h1: libmnl-1.0.4
 	cd $(TOP)/ipset && CC=$(CC) STRIP=$(STRIP) \
 	autoreconf -i -f && \
 	CFLAGS="-Os -Wall $(EXTRACFLAGS) -ffunction-sections -fdata-sections" \
 	LDFLAGS="-ffunction-sections -fdata-sections -Wl,--gc-sections" \
-	libmnl_CFLAGS="-I$(TOP)/libmnl/staged/usr/include" \
-	libmnl_LIBS="-L$(TOP)/libmnl/staged/usr/lib -lmnl" \
+	libmnl_CFLAGS="-I$(TOP)/libmnl-1.0.4/include" \
+	libmnl_LIBS="-L$(TOP)/libmnl-1.0.4/src/.libs -lmnl" \
 	$(CONFIGURE) --prefix=/usr --with-kmod=no --with-kbuild=$(LINUXDIR)
 	touch ipset/stamp-h1
 

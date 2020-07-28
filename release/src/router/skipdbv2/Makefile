@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/paldier/r7900p/gt5300/release/src/router/skipdbv2
+CMAKE_SOURCE_DIR = /home/paldier/5300/release/src/router/skipdbv2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/paldier/r7900p/gt5300/release/src/router/skipdbv2
+CMAKE_BINARY_DIR = /home/paldier/5300/release/src/router/skipdbv2
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/paldier/r7900p/gt5300/release/src/router/skipdbv2/CMakeFiles /home/paldier/r7900p/gt5300/release/src/router/skipdbv2/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/paldier/5300/release/src/router/skipdbv2/CMakeFiles /home/paldier/5300/release/src/router/skipdbv2/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/paldier/r7900p/gt5300/release/src/router/skipdbv2/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/paldier/5300/release/src/router/skipdbv2/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

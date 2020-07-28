@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/paldier/r7900p/gt5300/release/src/router/skipdbv2/mgr/daemonize.c" "/home/paldier/r7900p/gt5300/release/src/router/skipdbv2/CMakeFiles/skipd.dir/mgr/daemonize.c.o"
-  "/home/paldier/r7900p/gt5300/release/src/router/skipdbv2/mgr/skipd.c" "/home/paldier/r7900p/gt5300/release/src/router/skipdbv2/CMakeFiles/skipd.dir/mgr/skipd.c.o"
+  "/home/paldier/5300/release/src/router/skipdbv2/mgr/daemonize.c" "/home/paldier/5300/release/src/router/skipdbv2/CMakeFiles/skipd.dir/mgr/daemonize.c.o"
+  "/home/paldier/5300/release/src/router/skipdbv2/mgr/skipd.c" "/home/paldier/5300/release/src/router/skipdbv2/CMakeFiles/skipd.dir/mgr/skipd.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
@@ -26,7 +26,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/paldier/r7900p/gt5300/release/src/router/skipdbv2/CMakeFiles/skipdb.dir/DependInfo.cmake"
+  "/home/paldier/5300/release/src/router/skipdbv2/CMakeFiles/skipdb.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.
