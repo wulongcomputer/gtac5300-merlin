@@ -1805,8 +1805,8 @@ void nat_setting(char *wan_if, char *wan_ip, char *wanx_if, char *wanx_ip, char 
 			fprintf(fp, "-A POSTROUTING -m policy --dir out --pol ipsec -j ACCEPT\n");
 #endif
 		if (inet_addr_(wan_ip)) {
-			if (nvram_get_int("vts_enable_x") == 1) {
-				logmessage("FULLCONENAT", "start Full Cone NAT by paldier");
+			if (nvram_get_int("nat_type") == 1) {
+				logmessage("FULLCONENAT", "start Full Cone NAT");
 				fprintf(fp, "-A POSTROUTING %s -o %s ! -s %s -j MASQUERADE --mode fullcone\n", p, wan_if, wan_ip);
 			} else {
 			fprintf(fp, "-A POSTROUTING %s -o %s ! -s %s -j MASQUERADE\n", p, wan_if, wan_ip);
@@ -1815,7 +1815,7 @@ void nat_setting(char *wan_if, char *wan_ip, char *wanx_if, char *wanx_ip, char 
 
 		/* masquerade physical WAN port connection */
 		if (strcmp(wan_if, wanx_if) && inet_addr_(wanx_ip)) {
-			if (nvram_get_int("vts_enable_x") == 1) {
+			if (nvram_get_int("nat_type") == 1) {
 				fprintf(fp, "-A POSTROUTING %s -o %s ! -s %s -j MASQUERADE --mode fullcone\n", p, wanx_if, wanx_ip);
 			} else {
 				fprintf(fp, "-A POSTROUTING %s -o %s ! -s %s -j MASQUERADE\n", p, wanx_if, wanx_ip);
@@ -2189,8 +2189,8 @@ void nat_setting2(char *lan_if, char *lan_ip, char *logaccept, char *logdrop)	//
 			wanx_ip = nvram_safe_get(strcat_r(prefix, "xipaddr", tmp));
 
 			if (inet_addr_(wan_ip)) {
-				if (nvram_get_int("vts_enable_x") == 1) {
-					logmessage("FULLCONENAT", "start Full Cone NAT by paldier");
+				if (nvram_get_int("nat_type") == 1) {
+					logmessage("FULLCONENAT", "start Full Cone NAT");
 					fprintf(fp, "-A POSTROUTING %s -o %s ! -s %s -j MASQUERADE --mode fullcone\n", p, wan_if, wan_ip);
 				} else {
 					fprintf(fp, "-A POSTROUTING %s -o %s ! -s %s -j MASQUERADE\n", p, wan_if, wan_ip);
@@ -2198,7 +2198,7 @@ void nat_setting2(char *lan_if, char *lan_ip, char *logaccept, char *logdrop)	//
 			}
 			/* masquerade physical WAN port connection */
 			if (dualwan_unit__nonusbif(unit) && strcmp(wan_if, wanx_if) && inet_addr_(wanx_ip)) {
-				if (nvram_get_int("vts_enable_x") == 1) {
+				if (nvram_get_int("nat_type") == 1) {
 					fprintf(fp, "-A POSTROUTING %s -o %s ! -s %s -j MASQUERADE --mode fullcone\n", p, wanx_if, wanx_ip);
 				} else {
 					fprintf(fp, "-A POSTROUTING %s -o %s ! -s %s -j MASQUERADE\n", p, wanx_if, wanx_ip);
